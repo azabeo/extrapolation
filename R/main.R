@@ -14,7 +14,7 @@
 #' @return list of two tables, the updated bmds table with results and the EFs table used
 #' @author Alex Zabeo
 #' @examples
-#' extrapolation("example.data/bmd.csv","example.data/Efs.csv",0)
+#' res <- extrapolation("example.data/bmd.csv","example.data/Efs.csv",0)
 #' @export
 extrapolation <- function(bmd.file.name = "example.data/bmd.csv", efs.file.name = "example.data/Efs.csv",above.threshold = 0){
 
