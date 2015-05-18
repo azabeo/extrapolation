@@ -10,9 +10,9 @@
 #' @return nothing (creates variables with provided names)
 #' @author Alex Zabeo
 #' @examples
-#' loadData("inst/data.csv",c('id'),'dat')
+#' loadData("data.csv",c('id'),'dat')
 #' @export
-loadData <- function(file.name="inst/data.csv",ids=c('id'),var.name=NULL){
+loadData <- function(file.name="data.csv",ids=c('id'),var.name=NULL){
   if(!is.null(var.name)){
     do.call("<<-",list(var.name, loadTable(file.name,ids)))
   }
@@ -21,7 +21,7 @@ loadData <- function(file.name="inst/data.csv",ids=c('id'),var.name=NULL){
 }
 
 
-loadTable<-function(data="inst/data.csv",keys=c('id'),colClasses=NULL){
+loadTable<-function(data="data.csv",keys=c('id'),colClasses=NULL){
 
   if(is.null(colClasses)){
     dat <- read.table(data,header=TRUE,sep=",",stringsAsFactors=F)

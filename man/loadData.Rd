@@ -4,7 +4,7 @@
 \alias{loadData}
 \title{loadData}
 \usage{
-loadData(file.name = "inst/data.csv", ids = c("id"), var.name = NULL)
+loadData(file.name = "data.csv", ids = c("id"), var.name = NULL)
 }
 \arguments{
 \item{file.name}{string. name of csv file to load}
@@ -23,7 +23,7 @@ loads necessary data from files
 loads necessary data from files
 }
 \examples{
-loadData("inst/data.csv",c('id'),'dat')
+loadData("data.csv",c('id'),'dat')
 }
 \author{
 Alex Zabeo
