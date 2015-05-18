@@ -1,0 +1,13 @@
+Package: michael01
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 0.1
+Date: 2015-05-05
+Author: Alex Zabeo
+Maintainer: Alex Zabeo <alex.zabeo@unive.it>
+Description: More about what it does (maybe more than one line)
+License: What license is it under?
+LazyData: TRUE
+Imports:
+    logging,
+    data.table

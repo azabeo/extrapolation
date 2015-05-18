@@ -1,0 +1,1 @@
+name,mu,sigma,dist.type,is.geom,operation,above.thresholdEF.intra,1,1.98,rlnorm,TRUE,div,0EF.inter,4,2.7,rlnorm,TRUE,div,0Exposure,1,1,rnorm,FALSE,div,0
