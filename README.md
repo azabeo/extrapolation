@@ -12,14 +12,14 @@ extrapolaton factors probabilistic application to BMD
 ## Arguments
 
 * *bmd.file.name*	string. the location of the input file for bmds (al least it has to have 'bmd' and 'id' columns)
-* *efs.file.name*	string. table of EFs to be applied (see excel file in inst for instructions)
+* *efs.file.name*	string. table of EFs to be applied ([see specification below](#efs))
 * *above.threshold*	numeric. If present values less equal to it are discarded from generated bmd distribution
 
 ## Returns
 
 List of two tables, the updated bmds table with results and the EFs table used
 
-## EFs table specification
+## <a name="efs"></a>EFs table specification
 
 | name           | mu                         | sigma                       | dist.type                                     | is.geom                                                                                       | operation                          | above.threshold                                              |
 |----------------|----------------------------|-----------------------------|-----------------------------------------------|-----------------------------------------------------------------------------------------------|------------------------------------|--------------------------------------------------------------|
