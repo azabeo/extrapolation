@@ -19,6 +19,12 @@ extrapolaton factors probabilistic application to BMD
 
 List of two tables, the updated bmds table with results and the EFs table used
 
+## EFs table specification
+
+| name           | mu                         | sigma                       | dist.type                                     | is.geom                                                                                       | operation                          | above.threshold                                              |
+|----------------|----------------------------|-----------------------------|-----------------------------------------------|-----------------------------------------------------------------------------------------------|------------------------------------|--------------------------------------------------------------|
+| name of the EF | means GM if "geom" is TRUE | means GSD if "geom" is TRUE | can be "rnorm"(normal) or "rlnorm"(lognormal) | if "dist.type" is "lognormal" and "is.geom" is TRUE "mu" and "sigma" are trated as GM and GSD | either "div", "mult", "sum", "sub" | if present, values <= of the "above.threshold" are discarded |
+
 ## Data
 
 * Example csv and excel files in `example.data` folder
