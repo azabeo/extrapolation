@@ -3,8 +3,7 @@ extrapolaton factors probabilistic application to BMD
 
 ## Installation
 
-There are three alternative ways of installing (some may fail according to your personal set-up, just find the on which works for you), in any case
-dependencies has to be installed first.
+There are three alternative ways of installing (some may fail according to your personal set-up, just find the one which works for you), in any case dependencies has to be installed first.
 
 ### Installing dependencies
 
@@ -38,9 +37,9 @@ List of two tables, the updated bmds table with results and the EFs table used
 
 ### <a name="bmds"></a> bmds table specification
 
-| id            | bmd       |   |   |   |
-|---------------|-----------|---|---|---|
-| id of the row | bmd value |   |   |   |
+| id            | bmd       |
+|---------------|-----------|
+| id of the row | bmd value |
 
 ### <a name="efs"></a>EFs table specification
 
