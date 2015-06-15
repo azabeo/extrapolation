@@ -1,3 +1,14 @@
+#' @export
+remove.outliers <- function(x, H.left = 1.5,H.right = 1.5, na.rm = TRUE, ...) {
+  qnt <- quantile(x, probs=c(.25, .75), na.rm = na.rm, ...)
+  H.l <- H.left * IQR(x, na.rm = na.rm)
+  H.r <- H.right * IQR(x, na.rm = na.rm)
+  y <- x
+  y[x < (qnt[1] - H.l)] <- NA
+  y[x > (qnt[2] + H.r)] <- NA
+  y
+}
+
 #' decimals
 #'
 #' rounds number to a specific decimal and converts to string

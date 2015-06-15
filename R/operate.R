@@ -3,18 +3,23 @@ addRandColAndOperate <- function(d,col,randcol,newcol,mean,sd,rand.f,operator='m
 
   addRandCol(d,randcol,mean,sd,rand.f,dolog,above.threshold)
 
-  switch (operator,
-    div = d[,eval(newcol):= get(col) / get(randcol)],
-    mult = d[,eval(newcol):= get(col) * get(randcol)],
-    sum = d[,eval(newcol):= get(col) + get(randcol)]
-  )
-#
-#   if(operator=='div'){
-#     d[,eval(newcol):= get(col)/get(randcol)]
-#   }else{
-#     d[,eval(newcol):= get(col)*get(randcol)]
-#   }
+  operate(d,col,randcol,operator,newcol)
 
+#   switch (operator,
+#     div = d[,eval(newcol):= get(col) / get(randcol)],
+#     mult = d[,eval(newcol):= get(col) * get(randcol)],
+#     sum = d[,eval(newcol):= get(col) + get(randcol)]
+#   )
+
+}
+
+operate <- function(d,operand1,operand2,operator,result){
+  switch (operator,
+          div = d[,eval(result):= get(operand1) / get(operand2)],
+          mult = d[,eval(result):= get(operand1) * get(operand2)],
+          sum = d[,eval(result):= get(operand1) + get(operand2)],
+          sub = d[,eval(result):= get(operand1) - get(operand2)]
+  )
 }
 
 addRandCol <- function(d,randcol,mean,sd,rand.f,dolog=FALSE,above.threshold=NA){

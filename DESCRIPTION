@@ -10,4 +10,5 @@ License: What license is it under?
 LazyData: TRUE
 Imports:
     logging,
-    data.table
+    data.table,
+    ggplot2

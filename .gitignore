@@ -16,3 +16,4 @@ vignettes/*.pdf
 extrapolation.Rproj
 # Example data
 /example.data/
+/export/*
