@@ -4,8 +4,10 @@
 \alias{extrapolation}
 \title{extrapolation}
 \usage{
-extrapolation(bmd.file.name = "example.data/bmd.csv",
-  efs.file.name = "example.data/Efs.csv", above.threshold = 0)
+extrapolation(bmd.boot.col = "chengfang",
+  bmd.file.name = "example.data/bmd.csv",
+  efs.file.name = "example.data/Efs.cheng.csv",
+  calc.file.name = "example.data/calc.cheng.csv", above.threshold = 0)
 }
 \arguments{
 \item{bmd.file.name}{string. the location of the input file for bmds (al least it
@@ -28,7 +30,7 @@ lognormal distriution, then for each row in the EF table picks the corresponding
 and applies the corresponding operator in cascade
 }
 \examples{
-extrapolation("example.data/bmd.csv","example.data/Efs.csv",0)
+res <- extrapolation("example.data/bmd.csv","example.data/Efs.csv",0)
 }
 \author{
 Alex Zabeo

@@ -16,16 +16,20 @@
 #' @examples
 #' res <- extrapolation("example.data/bmd.csv","example.data/Efs.csv",0)
 #' @export
-extrapolation <- function(bmd.file.name = "example.data/bmd.csv", efs.file.name = "example.data/Efs.csv",above.threshold = 0){
+extrapolation <- function(bmd.boot.col = 'chengfang', bmd.file.name = "example.data/bmd.csv", efs.file.name = "example.data/Efs.cheng.csv", calc.file.name = "example.data/calc.cheng.csv",above.threshold = 0){
 
-  bmd.boot.col = 'bmd'
+  #bmd.boot.col = 'bmd'
   bmd.distrib = 'bmd.distrib'
   bmd.id = c('id')
-  efs.id = c('name')
+  efs.id = c('id')
+  calc.id = c('id')
+
+  rand.postfix = '.rand'
 
   logd('loading')
   bmds <- loadData(bmd.file.name,bmd.id)
   efs <- loadData(efs.file.name,efs.id)
+  calc <- loadData(calc.file.name,calc.id)
 
   logd('CALCULATING GMEAN, GSD AND BMD RAND VALUES ----------')
   gm = geomean(bmds[,get(bmd.boot.col)])
@@ -33,16 +37,25 @@ extrapolation <- function(bmd.file.name = "example.data/bmd.csv", efs.file.name 
 
   addRandCol(bmds,bmd.distrib,gm,gsd,rlnorm,TRUE,above.threshold)
 
-  logd('INTEGRATING FACTORS')
+  logd('GENERATING RANDOM VARIABLES ----------')
+
+  for(i in seq(1,nrow(efs))){
+    logd(paste0("step ",i," "),efs$name[i])
+    addRandCol(bmds,paste0(efs$name[i],rand.postfix),efs$mu[i],efs$sigma[i],efs$dist.type[i],efs$is.geom[i],efs$above.threshold[i])
+  }
+
+
+  logd('EXECUTING CALCULATIONS ----------')
 
   # position of the first column to utilize
   col = match(bmd.distrib,names(bmds))
 
-  for(i in seq(1,nrow(efs))){
-    logd(paste0("step ",i," "),efs$name[i])
-    addRandColAndOperate(bmds,names(bmds)[col],paste0(efs$name[i],'.rand'),paste0(names(bmds)[col],".",efs$name[i]),efs$mu[i],efs$sigma[i],efs$dist.type[i],efs$operation[i],efs$is.geom[i],efs$above.threshold[i])
-    col = col + 2
+  for(i in seq(1,nrow(calc))){
+    logd(paste0("step ",i," "),calc$result[i])
+    #addRandColAndOperate(bmds,names(bmds)[col],paste0(efs$name[i],rand.postfix),paste0(names(bmds)[col],".",efs$name[i]),efs$mu[i],efs$sigma[i],efs$dist.type[i],efs$operation[i],efs$is.geom[i],efs$above.threshold[i])
+    operate(bmds,calc$operand1[i],calc$operand2[i],calc$operator[i],calc$result[i])
+    #col = col + 2
   }
 
-  return(list('bmds'=bmds,'efs'=efs))
+  return(list('bmds'=bmds,'efs'=efs, 'calc'=calc))
 }
