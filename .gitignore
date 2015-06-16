@@ -17,3 +17,4 @@ extrapolation.Rproj
 # Example data
 /example.data/
 /export/*
+*.xlsx
