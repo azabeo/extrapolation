@@ -7,7 +7,8 @@
 extrapolation(bmd.boot.col = "chengfang",
   bmd.file.name = "example.data/bmd.csv",
   efs.file.name = "example.data/Efs.cheng.csv",
-  calc.file.name = "example.data/calc.cheng.csv", above.threshold = 0)
+  calc.file.name = "example.data/calc.cheng.csv", seed = seedVal,
+  above.threshold = 0)
 }
 \arguments{
 \item{bmd.file.name}{string. the location of the input file for bmds (al least it

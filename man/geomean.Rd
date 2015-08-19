@@ -4,7 +4,7 @@
 \alias{geomean}
 \title{geomean}
 \usage{
-geomean(x, na.rm = TRUE)
+geomean(x, na.rm = FALSE)
 }
 \arguments{
 \item{x}{array. numbers to which calculate the geom mean}

@@ -16,7 +16,9 @@
 #' @examples
 #' res <- extrapolation("example.data/bmd.csv","example.data/Efs.csv",0)
 #' @export
-extrapolation <- function(bmd.boot.col = 'chengfang', bmd.file.name = "example.data/bmd.csv", efs.file.name = "example.data/Efs.cheng.csv", calc.file.name = "example.data/calc.cheng.csv",above.threshold = 0){
+extrapolation <- function(bmd.boot.col = 'chengfang', bmd.file.name = "example.data/bmd.csv", efs.file.name = "example.data/Efs.cheng.csv", calc.file.name = "example.data/calc.cheng.csv",seed=seedVal,above.threshold = 0){
+
+  set.seed(seed)
 
   #bmd.boot.col = 'bmd'
   bmd.distrib = 'bmd.distrib'
@@ -32,8 +34,8 @@ extrapolation <- function(bmd.boot.col = 'chengfang', bmd.file.name = "example.d
   calc <- loadData(calc.file.name,calc.id)
 
   logd('CALCULATING GMEAN, GSD AND BMD RAND VALUES ----------')
-  gm = geomean(bmds[,get(bmd.boot.col)])
-  gsd = geosd(bmds[,get(bmd.boot.col)])
+  gm = geomean(bmds[,get(bmd.boot.col)],TRUE)
+  gsd = geosd(bmds[,get(bmd.boot.col)],TRUE)
 
   addRandCol(bmds,bmd.distrib,gm,gsd,rlnorm,TRUE,above.threshold)
 

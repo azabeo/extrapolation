@@ -22,6 +22,7 @@ operate <- function(d,operand1,operand2,operator,result){
   )
 }
 
+#' @import data.table
 addRandCol <- function(d,randcol,mean,sd,rand.f,dolog=FALSE,above.threshold=NA){
   if(dolog){
     l <- do.call(rand.f,list(nrow(d), log(mean), log(sd)))

@@ -200,6 +200,8 @@ plotMany <- function(d,names,isLogs,fit.from.zero=TRUE,do.plot=TRUE,isHist=TRUE,
       g= g + ggplot2::coord_cartesian(xlim = x.range,ylim = y.range)
     }
 
+    g = g + ggplot2::scale_x_log10() + ggplot2::scale_y_log10()
+
     plot(g)
   }
 

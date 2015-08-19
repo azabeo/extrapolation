@@ -1,3 +1,20 @@
+#' geomean
+#'
+#' geometric mean
+#'
+#' evaluates geometric mean
+#'
+#' @param x array. numbers to which calculate the geom mean
+#' @param na.rm Bool. remove na or not
+#' @return geometric mean
+#' @author Alex Zabeo
+#' @examples
+#' geomean(x)
+#' @export
+geomean <- function(x, na.rm=FALSE){
+  exp(mean(log(x[x > 0]), na.rm=na.rm))
+}
+
 #' @export
 remove.outliers <- function(x, H.left = 1.5,H.right = 1.5, na.rm = TRUE, ...) {
   qnt <- quantile(x, probs=c(.25, .75), na.rm = na.rm, ...)
@@ -61,22 +78,6 @@ add<-function(l,name,x){
   return(l)
 }
 
-#' geomean
-#'
-#' geometric mean
-#'
-#' evaluates geometric mean
-#'
-#' @param x array. numbers to which calculate the geom mean
-#' @param na.rm Bool. remove na or not
-#' @return geometric mean
-#' @author Alex Zabeo
-#' @examples
-#' geomean(x)
-geomean = function(x, na.rm=TRUE){
-  exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
-}
-
 #' geosd
 #'
 #' geometric standard deviaiton
@@ -89,6 +90,7 @@ geomean = function(x, na.rm=TRUE){
 #' @author Alex Zabeo
 #' @examples
 #' geosd(x)
+#' @export
 geosd <- function(x, na.rm = FALSE)
 {
   exp(sd(log(x[x > 0]), na.rm = na.rm))
