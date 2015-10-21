@@ -5,7 +5,7 @@
 \title{plot.all}
 \usage{
 plotall(r, ced, iced, imoe, iexp, title, exp.type = "norm", bounds = c(-5,
-  15), length = 10000)
+  15), length = 10000, noael = NULL)
 }
 \arguments{
 \item{r}{list. result of extrapolation()}

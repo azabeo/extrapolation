@@ -1,11 +1,13 @@
 #' @export
-plotallraw <- function(r,bmd,eff,exp,title=NULL,exp.type="norm",bounds=c(-5,15),length=10000){
+plotallraw <- function(r,bmd,eff,exp,title=NULL,exp.type="norm",bounds=c(-5,15),length=10000,noael=NULL){
   iced.orig = r$bmds[[eff]]
   iexp.orig = r$bmds[[exp]]
 
-  imoe.orig = iced.orig / iexp.orig
+  #imoe.orig = iced.orig / iexp.orig
+  imoe.orig = iexp.orig / iced.orig
   ced.orig = r$bmds[[bmd]]
-  ced.orig = ced.orig / iexp.orig
+  #ced.orig = ced.orig / iexp.orig
+  ced.orig = iexp.orig / ced.orig
 
   if(is.null(title)){
     title=exp
@@ -22,7 +24,7 @@ plotallraw <- function(r,bmd,eff,exp,title=NULL,exp.type="norm",bounds=c(-5,15),
   imoe <- log(imoe.out)
   ced <- log(ced.out)
 
-  plotall(r,ced,iced,imoe,iexp,title,exp.type,bounds,length)
+  plotall(r,ced,iced,imoe,iexp,title,exp.type,bounds,length,noael)
 }
 
 #' @export
@@ -62,7 +64,7 @@ plotalllogged <- function(r,iced,iexp,imoe,ced_exp,title=NULL,exp.type="norm",bo
 #' plot.all(r,bmd,eff,exp)
 #'
 #' @export
-plotall <- function(r,ced,iced,imoe,iexp,title,exp.type="norm",bounds=c(-5,15),length=10000)
+plotall <- function(r,ced,iced,imoe,iexp,title,exp.type="norm",bounds=c(-5,15),length=10000,noael=NULL)
 {
 
   iced.mn = mean(iced,na.rm = TRUE)
@@ -129,7 +131,10 @@ plotall <- function(r,ced,iced,imoe,iexp,title,exp.type="norm",bounds=c(-5,15),l
   }else{
     abline(v=iexp[1],col = "green")
   }
-  abline(v=0,col="red",lty=2)
+  abline(v=0,col="black",lty=2)
+  if(!is.null(noael)){
+    abline(v=noael,col="red",lty=2)
+  }
 
   title(main = title)
 
@@ -138,11 +143,13 @@ plotall <- function(r,ced,iced,imoe,iexp,title,exp.type="norm",bounds=c(-5,15),l
     lty = 1, col = c('purple', 'red', 'blue','green'), bty = 'n', cex =
       .75
   )
+  grid()
 
   if(exp.type=="norm"){
     x.iexp <- seq(iexp.min,iexp.max,length = length)
     y.iexp <- dnorm(x.iexp, mean = iexp.mn, sd = iexp.sd)
     plot(x.iexp,y.iexp,type = "l",col = "green")
+    grid()
   }
 
   x.iced <- seq(iced.min,iced.max,length = length)
