@@ -1,5 +1,5 @@
 #' @export
-plotallraw <- function(r,bmd,eff,exp,title=NULL,exp.type="norm",bounds=c(-5,15),length=10000,noael=NULL){
+plotallraw <- function(r,bmd,eff,exp,title=NULL,exp.type="norm",bounds=c(-5,15),length=10000,noael=NULL,niosh=NULL,gr=TRUE){
   iced.orig = r$bmds[[eff]]
   iexp.orig = r$bmds[[exp]]
 
@@ -24,11 +24,11 @@ plotallraw <- function(r,bmd,eff,exp,title=NULL,exp.type="norm",bounds=c(-5,15),
   imoe <- log(imoe.out)
   ced <- log(ced.out)
 
-  plotall(r,ced,iced,imoe,iexp,title,exp.type,bounds,length,noael)
+  plotall(r,ced,iced,imoe,iexp,title,exp.type,bounds,length,noael,niosh,gr=gr)
 }
 
 #' @export
-plotalllogged <- function(r,iced,iexp,imoe,ced_exp,title=NULL,exp.type="norm",bounds=c(-5,15),length=10000){
+plotalllogged <- function(r,iced,iexp,imoe,ced_exp,title=NULL,exp.type="norm",bounds=c(-5,15),length=10000,gr=TRUE){
   iced.orig = r[[iced]]
   iexp.orig = r[[iexp]]
 
@@ -44,7 +44,33 @@ plotalllogged <- function(r,iced,iexp,imoe,ced_exp,title=NULL,exp.type="norm",bo
   imoe.out <- remove.outliers(imoe.orig,1.5,1.5)
   ced.out <- remove.outliers(ced.orig,1.5,1.5)
 
-  plotall(r,ced.out,iced.out,imoe.out,iexp.out,title,exp.type,bounds,length)
+  plotall(r,ced.out,iced.out,imoe.out,iexp.out,title,exp.type,bounds,length,gr=gr)
+}
+
+#' @export
+plotallrawCheng <- function(r,iced,iexp,imoe,ced_exp,title=NULL,exp.type="norm",bounds=c(-5,15),length=10000,gr=TRUE){
+  iced.orig = r[[iced]]
+  iexp.orig = r[[iexp]]
+
+  imoe.orig = r[[imoe]]
+  ced.orig = r[[ced_exp]]
+
+  if(is.null(title)){
+    title=iexp
+  }
+
+  iced.out <- remove.outliers(iced.orig,1.5,1.5)
+  iexp.out <- remove.outliers(iexp.orig,1.5,1.5)
+  imoe.out <- remove.outliers(imoe.orig,1.5,1.5)
+  ced.out <- remove.outliers(ced.orig,1.5,1.5)
+
+  iced <- log(iced.out)
+  iexp <- log(iexp.out)
+  #iexp <- iexp.out
+  imoe <- log(imoe.out)
+  ced <- log(ced.out)
+
+  plotall(r,ced,iced,imoe,iexp,title,exp.type,bounds,length,gr=FALSE)
 }
 
 #' plot.all
@@ -64,7 +90,7 @@ plotalllogged <- function(r,iced,iexp,imoe,ced_exp,title=NULL,exp.type="norm",bo
 #' plot.all(r,bmd,eff,exp)
 #'
 #' @export
-plotall <- function(r,ced,iced,imoe,iexp,title,exp.type="norm",bounds=c(-5,15),length=10000,noael=NULL)
+plotall <- function(r,ced,iced,imoe,iexp,title,exp.type="norm",bounds=c(-5,15),length=10000,noael=NULL,niosh=NULL,minq=0.001,maxq=0.999,gr=TRUE)
 {
 
   iced.mn = mean(iced,na.rm = TRUE)
@@ -83,23 +109,35 @@ plotall <- function(r,ced,iced,imoe,iexp,title,exp.type="norm",bounds=c(-5,15),l
 
   #------------
 
-  iced.min = min(iced,na.rm = TRUE)
-  iced.max = max(iced,na.rm = TRUE)
+#   iced.min = min(iced,na.rm = TRUE)
+#   iced.max = max(iced,na.rm = TRUE)
+#
+#   iexp.min = min(iexp,na.rm = TRUE)
+#   iexp.max = max(iexp,na.rm = TRUE)
+#
+#   imoe.min = min(imoe,na.rm = TRUE)
+#   imoe.max = max(imoe,na.rm = TRUE)
+#
+#   ced.min = min(ced,na.rm = TRUE)
+#   ced.max = max(ced,na.rm = TRUE)
 
-  iexp.min = min(iexp,na.rm = TRUE)
-  iexp.max = max(iexp,na.rm = TRUE)
+  iced.min = qnorm(minq,iced.mn,iced.sd)
+  iced.max = qnorm(maxq,iced.mn,iced.sd)
 
-  imoe.min = min(imoe,na.rm = TRUE)
-  imoe.max = max(imoe,na.rm = TRUE)
+  iexp.min = qnorm(minq,iexp.mn,iexp.sd)
+  iexp.max = qnorm(maxq,iexp.mn,iexp.sd)
 
-  ced.min = min(ced,na.rm = TRUE)
-  ced.max = max(ced,na.rm = TRUE)
+  imoe.min = qnorm(minq,imoe.mn,imoe.sd)
+  imoe.max = qnorm(maxq,imoe.mn,imoe.sd)
+
+  ced.min = qnorm(minq,ced.mn,ced.sd)
+  ced.max = qnorm(maxq,ced.mn,ced.sd)
 
   global.min = min(iced.min,iexp.min,imoe.min,ced.min)
   global.max = max(iced.max,iexp.max,imoe.max,ced.max)
 
   if(is.null(bounds)){
-    x <- seq(global.min,global.max,length=length)
+    x <- seq(global.min,global.max,length.out = length)
   }else{
     x <- seq(bounds[1],bounds[2],length = length)
   }
@@ -131,9 +169,12 @@ plotall <- function(r,ced,iced,imoe,iexp,title,exp.type="norm",bounds=c(-5,15),l
   }else{
     abline(v=iexp[1],col = "green")
   }
-  abline(v=0,col="black",lty=2)
+  abline(v=0,col="red",lty=2,lwd=2)
   if(!is.null(noael)){
     abline(v=noael,col="red",lty=2)
+  }
+  if(!is.null(niosh)){
+    abline(v=niosh,col="orange",lty=2)
   }
 
   title(main = title)
@@ -143,13 +184,18 @@ plotall <- function(r,ced,iced,imoe,iexp,title,exp.type="norm",bounds=c(-5,15),l
     lty = 1, col = c('purple', 'red', 'blue','green'), bty = 'n', cex =
       .75
   )
-  grid()
+  if (gr) {
+    grid()
+  }
+
 
   if(exp.type=="norm"){
     x.iexp <- seq(iexp.min,iexp.max,length = length)
     y.iexp <- dnorm(x.iexp, mean = iexp.mn, sd = iexp.sd)
     plot(x.iexp,y.iexp,type = "l",col = "green")
-    grid()
+    if (gr) {
+      grid()
+    }
   }
 
   x.iced <- seq(iced.min,iced.max,length = length)
@@ -161,7 +207,16 @@ plotall <- function(r,ced,iced,imoe,iexp,title,exp.type="norm",bounds=c(-5,15),l
   y.ced <- dnorm(x.ced, mean = ced.mn, sd = ced.sd)
 
   plot(x.iced,y.iced,type = "l",col = "red")
+  if (gr) {
+    grid()
+  }
   plot(x.imoe,y.imoe,type = "l",col = "blue")
+  if (gr) {
+    grid()
+  }
   plot(x.ced,y.ced,type = "l",col = "purple")
+  if (gr) {
+    grid()
+  }
 }
 
